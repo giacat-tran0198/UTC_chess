@@ -1,0 +1,4 @@
+io.emit() send a message to all connected clients
+socket.broadcast() send a message to everyone not me
+socket.emit() send a message to the connected socket
+socket.on() callback to handle messages in client or server
