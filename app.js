@@ -6,7 +6,8 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
 //set users
-var numUsers = 0;
+var games = [];
+var waitingUsers = [];
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
@@ -15,15 +16,32 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
 
-    //set user0 or user1
-    socket.color = numUsers < 1 ? 'white' : 'black';
-    numUsers = numUsers < 1 ? 1 : 0; //set 2 users
+    //set user
+    socket.username = 'user' + Math.floor((Math.random()*100)+1);
+    console.log (socket.username + ' connect');
 
-    //set color for user
-    socket.emit('join', {
-        color: socket.color
-    })
+    //set 2 user play together --> show board game
+    if (waitingUsers.length > 0){
+        var opponent = waitingUsers.pop();
+        var game = {
+            Id: Math.floor((Math.random()*100)+1),
+            player: [opponent.username, socket.username]
+        };
 
+        socket.gameId = game.Id;
+        opponent.gameId = game.Id;
+
+        console.log('starting game: '+game.Id);
+        opponent.emit('join', {game:game, color : 'white'});
+        socket.emit('join', {game:game, color: 'black'});
+
+        games.push(game);
+    }
+    //1 user --> waiting
+    else{
+        console.log(socket.username + ' joing lobby');
+        waitingUsers.push(socket);
+    }
 
     //send the move of pice
     socket.on('move', function (msg) {
