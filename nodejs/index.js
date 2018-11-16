@@ -1,17 +1,13 @@
-var express = require('express');
-var app = express();
-app.use(express.static('public'));
-var http = require('http').Server(app);
+var http = require('http').createServer().listen(4000);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+
+// host of the server
+var host = 'localhost';
+var port = '8000';
 
 //set users
 var games = [];
 var waitingUsers = [];
-
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/public/index.html');
-});
 
 
 io.on('connection', function (socket) {
@@ -49,7 +45,3 @@ io.on('connection', function (socket) {
     });
 
 });
-
-http.listen(port, function () {
-    console.log('listening on *: ' + port);
-}); 

@@ -1,7 +1,11 @@
+// host of the server
+var host = 'localhost';
+var nodejs_port = '4000';
+
 var game, board, socket, playerColor;
 
-window.onload = function () {
-    socket = io();
+$(function () {    
+    socket = io(host + ':' + nodejs_port);
 
     //start game with color user
     socket.on('join', function (msg) {
@@ -17,7 +21,7 @@ window.onload = function () {
         updateMoveHistory(msg);
         updateStatus();
     });
-};
+});
 
 
 var initGame = function () {
