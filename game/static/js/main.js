@@ -4,14 +4,22 @@ var nodejs_port = '4000';
 
 var game, board, socket, playerColor;
 
-$(function () {    
+$(function () {
     socket = io(host + ':' + nodejs_port);
+
+    //login
+    username = $('#username').val();
+    socket.emit('login',{username: username});
+    console.log('user ',username);
 
     //start game with color user
     socket.on('join', function (msg) {
         playerColor = msg.color;
         initGame();
         updateStatus();
+        console.log(msg.game.oppDict);
+        oppDict = msg.game.oppDict[username];
+        $('#opponentname').append(oppDict);
     });
 
     //draw board with new move
@@ -46,46 +54,47 @@ var initGame = function () {
 var onDragStart = function (source, piece, position, orientation) {
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+        (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
+        (game.turn() !== playerColor[0])) {
         return false;
     }
 };
 
 //show status
-var updateStatus = function() {
+var updateStatus = function () {
     var status = '';
-  
+
     var moveColor = 'White';
     if (game.turn() === 'b') {
-      moveColor = 'Black';
+        moveColor = 'Black';
     }
-  
-    if (game.in_checkmate() === true) {
-      status = 'Game over, ' + moveColor + ' is in checkmate.';
-    }
-  
-    else if (game.in_draw() === true) {
-      status = 'Game over, drawn position';
-    }
-  
-    else {
-      status = moveColor + ' to move';
-  
 
-      if (game.in_check() === true) {
-        status += ', ' + moveColor + ' is in check';
-      }
+    if (game.in_checkmate() === true) {
+        status = 'Game over, ' + moveColor + ' is in checkmate.';
     }
-    
-    statusEl.html(status); 
-};  
+
+    else if (game.in_draw() === true) {
+        status = 'Game over, drawn position';
+    }
+
+    else {
+        status = moveColor + ' to move';
+
+
+        if (game.in_check() === true) {
+            status += ', ' + moveColor + ' is in check';
+        }
+    }
+
+    statusEl.html(status);
+};
 
 var updateMoveHistory = function (lastMove) {
-    historyElement.append('<tr>'+'<td>'+lastMove['from']+'</td>'+'<td>'+lastMove['to']+'</td>'+'<td>'+lastMove['piece']+'</td>'+'</tr>');
+    historyElement.append('<tr>' + '<td>' + lastMove['from'] + '</td>' + '<td>' + lastMove['to'] + '</td>' + '<td>' + lastMove['piece'] + '</td>' + '</tr>');
 };
 
 var onDrop = function (source, target) {
-    
+
     removeGreySquares();
 
     // see if the move is legal
@@ -94,7 +103,7 @@ var onDrop = function (source, target) {
         to: target,
         promotion: 'q' // NOTE: always promote to a queen for example simplicity
     });
-    
+
     // illegal move
     if (move === null) {
         return 'snapback';
@@ -111,30 +120,32 @@ var onSnapEnd = function () {
     board.position(game.fen());
 };
 
-var onMouseoverSquare = function(square, piece) {
-    var moves = game.moves({
-        square: square,
-        verbose: true
-    });
+var onMouseoverSquare = function (square, piece) {
+    if (game.turn() === playerColor[0]) {
+        var moves = game.moves({
+            square: square,
+            verbose: true
+        });
 
-    if (moves.length === 0) return;
+        if (moves.length === 0) return;
 
-    greySquare(square);
+        greySquare(square);
 
-    for (var i = 0; i < moves.length; i++) {
-        greySquare(moves[i].to);
+        for (var i = 0; i < moves.length; i++) {
+            greySquare(moves[i].to);
+        }
     }
 };
 
-var onMouseoutSquare = function(square, piece) {
+var onMouseoutSquare = function (square, piece) {
     removeGreySquares();
 };
 
-var removeGreySquares = function() {
+var removeGreySquares = function () {
     $('#board .square-55d63').css('background', '');
 };
 
-var greySquare = function(square) {
+var greySquare = function (square) {
     var squareEl = $('#board .square-' + square);
 
     var background = '#a9a9a9';

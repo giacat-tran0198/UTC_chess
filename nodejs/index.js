@@ -13,31 +13,40 @@ var waitingUsers = [];
 io.on('connection', function (socket) {
 
     //set user
-    socket.username = 'user' + Math.floor((Math.random()*100)+1);
-    console.log (socket.username + ' connect');
+    socket.on('login', function (msg) {
+        socket.username = msg.username;
+        console.log(socket.username + ' connect');
 
-    //set 2 user play together --> show board game
-    if (waitingUsers.length > 0){
-        var opponent = waitingUsers.pop();
-        var game = {
-            Id: Math.floor((Math.random()*100)+1),
-            player: [opponent.username, socket.username]
-        };
+        //set 2 user play together --> show board game
+        if (waitingUsers.length > 0) {
+            var opponent = waitingUsers.pop();
+            
+            var oppDict = {};
+            oppDict[opponent.username] = socket.username;
+            oppDict[socket.username] = opponent.username;
+            
 
-        socket.gameId = game.Id;
-        opponent.gameId = game.Id;
+            var game = {
+                Id: Math.floor((Math.random() * 100) + 1),
+                oppDict: oppDict
+            };
 
-        console.log('starting game: '+game.Id);
-        opponent.emit('join', {game:game, color : 'white'});
-        socket.emit('join', {game:game, color: 'black'});
+            socket.gameId = game.Id;
+            opponent.gameId = game.Id;
 
-        games.push(game);
-    }
-    //1 user --> waiting
-    else{
-        console.log(socket.username + ' joing lobby');
-        waitingUsers.push(socket);
-    }
+            console.log('starting game: ' + game.Id);
+            opponent.emit('join', { game: game, color: 'white'});
+            socket.emit('join', { game: game, color: 'black'});
+
+            games.push(game);
+        }
+        //1 user --> waiting
+        else {
+            console.log(socket.username + ' joing lobby');
+            waitingUsers.push(socket);
+        }
+    });
+
 
     //send the move of pice
     socket.on('move', function (msg) {
