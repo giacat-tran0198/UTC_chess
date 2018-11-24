@@ -1,0 +1,567 @@
+/* General Rules */
+html{
+    font-size:100%; 
+    overflow-x: hidden;
+}
+.bodystyle{
+    font-family: "roboto", "Trebuchet MS";
+    color : #ffffff;
+    /*overflow: auto;
+    position: static;*/
+   background-image: url("../img/home-background.jpg");
+   background-color: #cccccc;
+}
+main{
+    padding-bottom: 2em;
+   /* padding-right: 0 !important;*/
+}
+
+section{
+    display: block;
+}
+
+article{
+    padding: 3rem 1rem 1.5rem 1rem !important;
+    margin-top: 15px;
+    margin-bottom: 4em;
+}
+
+/* What's about titles */
+h1 h2 h3 h4 h5 h6{
+    font-weight: 700 !important;
+    text-align: center !important;
+    color : #595959;
+}
+h1{
+    font-size: 2.6rem;
+    border-bottom: solid #FFC200 2px;
+    text-transform: uppercase;
+    padding-bottom: 2px;
+}
+h1 + h2{
+    font-size: 1.8rem;
+    font-style: italic;
+    display: inline-block;
+}
+
+.informations a{
+    margin-right: 0.5em;
+    margin-bottom: 0.5em !important;
+}
+desc{
+    margin-bottom: 1em !important;
+}
+.accueil{
+    height: 95vh;
+    z-index: 1;
+}
+.row{
+    margin-bottom: 0;
+}
+
+/* What's about the header */
+header{
+    background-color: #fffcfa; 
+}
+
+small{
+    display: block;
+}
+.sunFlower{
+    background-color: #F6BB42;
+}
+
+/* What's about great positioning */
+.forceOverflow{
+    overflow: auto !important;
+}
+.right{
+    text-align: right;
+}
+.center{
+    text-align: center;
+}
+
+.homePic{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index:0;
+}
+.gradientWhite{
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 95%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 95%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+}
+.gradientBlk{
+    background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 84%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 84%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 84%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+    width:100%;
+    height:100%;
+    position: absolute;
+    z-index: 1;
+}
+.card-title{
+    z-index: 2;
+}
+
+.homePicContainer{
+    /*-webkit-background-image: url("image/chess-8.jpg");
+    -moz-background-image: url("image/chess-8.jpg");
+    -o-background-image: url("image/chess-8.jpg");
+    background-image: url("image/chess-8.jpg");*/
+    background-repeat:no-repeat;
+    background-clip: border-box;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  /* Gecko 2.0 (Firefox 4.0) et autres nav. conformes Ã  CSS3 */
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: -1;
+}
+.marginSides{
+    margin-left : 30px !important;
+    margin-right: 30px !important;
+}
+
+/* Here you'll find how I manage pics */
+.imageBox{
+    text-align: center;
+}
+a.brand-logo img{
+    width: 2.5em;
+    height: 2.5em;
+}
+.brand-logo img{
+    padding: 2px;
+    margin-top: 50%;
+    background-color: rgba(O,O,O,O);
+    will-change: width height box;
+
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1) translateY(-40%);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1) translateY(-40%);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1) translateY(-40%);
+    transition: all 200ms ease-in;
+    transform: scale(1) translateY(-40%);
+}
+.brand-logo img:hover{
+    /*background-color: #777;*/
+    box-shadow: 0px 0px 20px #E6E6E6;
+
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1) translateY(-38%);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1) translateY(-38%);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1) translateY(-38%);
+    transition: all 200ms ease-in;
+    transform: scale(1) translateY(-38%);
+ }
+/*.brand-logo:hover{
+    background-color: gray;
+}*/
+.contactContainer{
+    padding-bottom: 5em;
+}
+.icon-bar{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1em;
+    transform: translateY(12.5%);
+}
+.page-footer{
+    padding-top: 0;
+    margin-top: -2em;
+
+}
+.shadowBorder{
+    box-shadow: 0px -13px 20px rgba(0,0,0,.15);
+}
+/* This describes the home page's first screen */
+.parallax-container .parallax img:not(.fullBG){
+/*    max-width: 60rem;
+    max-height: 60rem;*/
+    min-height: 5rem !important;
+    min-width: 5rem !important;
+}
+.navigationPics{
+    max-width: 6rem;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateY(-200%) translateX(-50%);
+}
+
+/* And then I put main information below the first home screen*/
+#secondSec{
+    position: absolute;
+    top:100%;
+}
+
+.icon{
+    width: 3em;
+    height: 3em;
+}
+/* Space between menu user and other button in the header */
+ul:not(#mobileMenu) .boutonMenuUser{
+    margin-left: 1em;
+}
+
+ul li a.active{
+    background-color: rgba(0, 0, 0, 0.2);
+    color : white !important;
+}
+
+.meta{
+    position: relative;
+    right:00%;
+    transform: translateX(00%);
+}
+.collapsible-body{
+    overflow-wrap:break-word;
+}
+.collapsible-body .btn-floating{
+    margin: 1em 0;
+}
+.collapsible-header > .row{
+    width:100%;
+}
+.fullscreenBackground{
+    position : absolute;
+    width : 100%;
+    height : 101vh;
+    z-index: 1;
+    top : 0;
+    left : 0;
+    background-color : rgba(0,0,0,0.4);
+}
+.loginForm, .askingForm{
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column ;
+    flex-direction: column;
+    justify-content: space-around;
+
+    z-index: 999;
+
+    position: absolute;
+
+    height: auto;
+    padding: 2em !important;
+    top:50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.connectionWindow, .askingWindow{
+    position: fixed;
+    display: none;
+    z-index: 12;
+    width : 100%;
+    height : 101vh;
+}
+.dropdown-button{
+    margin: 0;
+    padding: 0 4.5rem;
+}
+#userMenu, #UserMenuDesk  {
+    font-size: 1rem !important;
+
+}
+.rightAligned{
+    left:100%;
+    -webkit-transform: translateX(-100%) translateY(10%);
+    -moz-transform: translateX(-100%) translateY(10%);
+    -ms-transform: translateX(-100%) translateY(10%);
+    -o-transform: translateX(-100%) translateY(10%);
+    transform: translateX(-100%) translateY(10%);
+    margin-bottom: 1em;
+}
+.articleContent{
+    margin-top: 1em;
+    height: 50vh;
+    border: 1px solid black;
+    padding: 1em;
+    overflow: auto;
+}
+.partie{
+    display: flex;
+    justify-content: space-around;
+    border-left: solid 1px #595959;
+    border-right: solid 1px #595959;
+}
+
+.offsetTop{
+    margin-top: 3em !important;
+}
+
+
+.partie i{
+    font-size: 1.5rem;
+}
+
+.position-middle-left{
+    top: 50%;
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    transform: translateY(-100%);
+    left: 23px;
+}
+.btn-group-vertical{
+    position: fixed;
+    background-color: #595959;
+    padding: 3em 10px;
+}
+
+.btn-group-vertical a{
+    display: block;
+}
+
+.btn-group-vertical a.hidden{
+    display: none;
+}
+
+.btn-group-vertical > a:not(:nth-child(odd)){
+    margin-top:1em;
+}
+
+.btn-group a:not(:first-child){
+    margin-top: 0 !important;
+    margin-left: 1em;
+}
+.meta--date, .meta--author{
+    font-size: 1rem;
+    color: #9e9e9e;
+    font-style: italic ;
+    text-decoration: none;
+    text-transform: none;
+}
+.meta--date::before{
+    content: "PubliÃ© le : ";
+}
+.meta--author::before{
+    content: " par ";
+}
+
+.newsHolder .active .collapsible-body{
+    padding: 0;
+}
+.articlePreview{
+    width:100%;
+    padding: 1em 2em;
+    height:25vh;
+    overflow: hidden ;
+}
+
+.relativeCenter{
+    display: inline-block;
+    left : 50%;
+    transform: translateX(-50%);
+}
+
+#Contact{
+    margin-top: 2em;
+}
+label{
+    font-size: 1.1em;
+}
+.forValid{
+    margin-right : 5px;
+}
+.e404{
+    width:100vw;
+    height:95vh;
+    background-color: #e6e6e6;
+    margin-bottom: -2em;
+    overflow: hidden;
+}
+.logo404{
+    position: relative;
+    float: left;
+    opacity: 0.5;
+    max-width: 70%;
+    max-height: 70%;
+    left : 70%;
+    top : -7%;
+    overflow: hidden;
+}
+.citation{
+    position: absolute;
+    top:30%;
+    left:0;
+    width : 45%;
+}
+blockquote.quote404{
+    font-size: 2.5em;
+    font-style: italic;
+    font-family: Times;
+}
+cite{
+    display: block;
+    width: 100%;
+    color: #AAAAAA;
+    font-size: 1.3em;
+    font-style: italic;
+    text-align: right;
+}
+.title404 {
+    position: absolute;
+    top: 5vh;
+    left: 0;
+    font-size: 7em;
+    font-style: italic;
+}
+.buttons404{
+    position: absolute;
+    top:70%;
+    left:50%;
+    transform: translateX(-50%);
+}
+.buttons404 a{
+    width: 20vw;
+}
+.secondaryTabs{
+    background-color: #E6E6E6;
+}
+.secondaryTabs a{
+    color: rgba(89,89,89,0.7) !important;
+}.secondaryTabs a:hover{
+    color: rgba(89,89,89,1) !important;
+}
+.secondaryTabs a.active{
+    color: #000000 !important;
+}
+.downloadableContent{
+    height: 20vh;
+}
+/* Gerstion des grilles d'affichage */
+
+
+.grid .gridElem{
+    height : 13em;
+    background-color: #E6E6E6;
+    border: solid #FFC200 1px;
+}
+.gridElem h1{
+    border-bottom: solid 2px #595959;
+    margin-top: .5em;
+    width: 100%;
+    text-align: center;
+}
+.gridElem .vertical-group{
+    display: flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    width: 35%;
+    margin-left:50%;
+    transform: translateX(-50%);
+}
+.gridElem .vertical-group a:not(:nth-child(1)){
+     margin-top: .5em;
+}
+.gridElem .addingButton{
+    position: relative;
+    width:3em;
+    height:3em;
+    left:50%;
+    top:50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.gridElem .addingButton a{
+    width: 100%;
+    height:100%;
+}
+.gridElem .addingButton a i{
+    font-size: 1.7em!important;
+    color: #000 !important;
+}
+.absolute{
+    position: absolute !important;
+    top : 0;
+    left : 0;
+}
+.card .fixed-action-btn{
+    position: absolute;
+    display: inline-block;
+    right: 24px;
+    bottom:0;
+    transform: translateY(50%);
+}
+.firstHover {
+    z-index:998 !important;
+    right: -6px !important;
+    margin:0 !important;
+}
+.firstHover li{
+    margin: 0px 6px 0px 0px !important;
+}
+
+.footerLogo{
+    -webkit-transition: color 0.5;
+    -moz-transition: color 0.5;
+    -ms-transition: color 0.5;
+    -o-transition: color 0.5;
+    transition: color 0.5;
+    color: #9e9e9e;
+}
+.footerLogo:hover{
+    color: #595959;
+}
+
+svg path{
+    fill: currentColor !important;
+}
+
+a svg{
+    width: 6rem;
+    height: 6rem;
+}
+
+@media all and (max-width : 680px) {
+    .informations{
+        font-size: 1.4em !important;
+    }
+    .parallax-container .parallax img{
+        max-width: 30rem;
+        max-height: 30rem;
+        min-height: 5rem !important;
+        min-width: 5rem !important;
+    }
+    .brand-logo img{
+        margin-top: 42%;
+    }
+    .forValid{
+        margin-right : 0px;
+    }
+
+    .citation{
+        width : 100%;
+    }
+
+}
