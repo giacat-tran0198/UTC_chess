@@ -33,14 +33,14 @@ io.on('connection', function (socket) {
         delete lobbyUsers[msg];
 
         var oppDict = {};
-        oppDict[opponent.username] = socket.username;
-        oppDict[socket.username] = opponent.username;
+        oppDict[msg] = socket.username;
+        oppDict[socket.username] = msg;
 
         var setColorUser = {};
-        setColorUser[opponent.username] = 'white';
-        setColorUser[socket.username] = 'black';
-        setColorUser['white'] = opponent.username;
-        setColorUser['black'] = socket.username;
+        setColorUser[socket.username] = 'white';
+        setColorUser[msg] = 'black';
+        setColorUser['white'] = socket.username;
+        setColorUser['black'] = msg;
 
         var game = {
             Id: Math.floor((Math.random() * 100) + 1),
@@ -52,7 +52,7 @@ io.on('connection', function (socket) {
         users[msg].gameId = game.Id
 
         console.log('starting game: ' + game.Id);
-        opponent.emit('joingame', { game: game });
+        socket.emit('joingame', { game: game });
         users[msg].emit('joingame', { game: game });
     });
 
