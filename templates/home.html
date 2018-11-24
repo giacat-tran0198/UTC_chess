@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<!-- Prévoir : ajouter application chess,consulter la profile -->	
+  <p><h2>Hi {{ user.username }}! </h2></p>
+  <p>
+    <a class="btn btn-warning" href="{% url 'game:index' %}" role="button"> Game </a>
+    <a class="btn btn-warning" href="{% url 'profil:index' %}" role="button"> Your space </a>
+    <a class="btn btn-warning" href="{% url 'logout' %}" role="button"> Logout </a>
+  </p>
+{% else %}
+  <p>You are not logged in</p>
+  <a class="btn btn-warning" href="{% url 'login' %}" role="button"> Login </a>
+{% endif %}
+{% endblock %}
