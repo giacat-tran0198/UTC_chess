@@ -52,8 +52,8 @@ io.on('connection', function (socket) {
         users[msg].gameId = game.Id
 
         console.log('starting game: ' + game.Id);
-        socket.emit('joingame', { game: game });
-        users[msg].emit('joingame', { game: game });
+        socket.emit('joingame', game);
+        users[msg].emit('joingame', game);
     });
 
     //send the move of pice
@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
 
     //disconnect when log out or exit browser
     socket.on('disconnect',function(){
-        console.log(socket.username+ 'disconnected');
+        console.log(socket.username+ ' disconnected');
 
         socket.broadcast.emit('logout',{
             username: socket.username,

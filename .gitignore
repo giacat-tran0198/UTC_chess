@@ -1,5 +1,6 @@
 Pipfile
 db.sqlite3
-/env
 /__pycache__
 *.pyc
+.vscode/settings.json
+package-lock.json
