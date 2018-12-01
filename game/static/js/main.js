@@ -2,7 +2,7 @@
 var host = 'localhost';
 var nodejs_port = '4000';
 
-var game, board, socket, playerColor, nameColor;
+var game, board, socket, serverGame;
 var usersOnline = [];
 var checkLogout = '';
 
@@ -51,41 +51,43 @@ $(function () {
 
     //start game with color user
     socket.on('joingame', function (msg) {
-        nameColor = msg.game.setColorUser;
-        playerColor = nameColor[username];
-        initGame();
+        initGame(msg);
         updateStatus();
-        console.log(msg.game.oppDict);
-        oppDict = msg.game.oppDict[username];
-        $('#opponentname').html(oppDict);
-
+        $('#opponentname').html(msg.oppDict[username]);
         $('#page-lobby').hide();
         $('#page-notification').show();
     });
 
     //draw board with new move
     socket.on('move', function (msg) {
-        game.move(msg);
-        board.position(game.fen());
-        updateMoveHistory(msg);
-        updateStatus();
+        if (msg.gameId === serverGame.Id) {
+            game.move(msg.move);
+            board.position(msg.board);
+            updateMoveHistory(msg.move);
+            updateStatus();
+        }
     });
 
     //logout
     socket.on('logout', function (msg) {
-        socket.disconnect();
-        checkLogout = msg.username;
-        updateStatus();
+        if (msg.gameId === serverGame.Id) {
+            game = null;
+            board.destroy();
+            socket.disconnect();
+            checkLogout = msg.username;
+            updateStatus();
+        }
     });
 });
 
 
-var initGame = function () {
+var initGame = function (serverGameState) {
+    serverGame = serverGameState;
 
     var cfg = {
         draggable: true,
         position: 'start',
-        orientation: playerColor,
+        orientation: serverGame.setColorUser[username],
         onDragStart: onDragStart,
         onDrop: onDrop,
         onMouseoutSquare: onMouseoutSquare,
@@ -99,11 +101,11 @@ var initGame = function () {
     updateStatus();
 }
 
-var onDragStart = function (source, piece, position, orientation) {
+var onDragStart = function (piece) {
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
-        (game.turn() !== playerColor[0])) {
+        (game.turn() !== serverGame.setColorUser[username][0])) {
         return false;
     }
 };
@@ -113,9 +115,9 @@ var updateStatus = function () {
     if (checkLogout === '') {
         var status = '';
 
-        var moveUser = nameColor['white'];
+        var moveUser = serverGame.setColorUser['white'];
         if (game.turn() === 'b') {
-            moveUser = nameColor['black'];
+            moveUser = serverGame.setColorUser['black'];
         }
 
         if (game.in_checkmate() === true) {
@@ -160,7 +162,7 @@ var onDrop = function (source, target) {
     if (move === null) {
         return 'snapback';
     } else {
-        socket.emit('move', move);
+        socket.emit('move', { move, gameId: serverGame.Id, board: game.fen() });
         updateMoveHistory(move);
     }
     updateStatus();
@@ -172,8 +174,8 @@ var onSnapEnd = function () {
     board.position(game.fen());
 };
 
-var onMouseoverSquare = function (square, piece) {
-    if (game.turn() === playerColor[0]) {
+var onMouseoverSquare = function (square) {
+    if (game.turn() === serverGame.setColorUser[username][0]) {
         var moves = game.moves({
             square: square,
             verbose: true
@@ -189,7 +191,7 @@ var onMouseoverSquare = function (square, piece) {
     }
 };
 
-var onMouseoutSquare = function (square, piece) {
+var onMouseoutSquare = function () {
     removeGreySquares();
 };
 
