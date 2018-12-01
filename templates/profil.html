@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Space{% endblock %}
+{% block content %}
+
+<p><h2 ">Your profil</h2></p>
+
+<div class="container" style ="max-width: 60%">
+<table class="table table-bordered", style="text-align: left;background-color: #000000c3;line-height: 1">
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">{{ user.username }}</th>
+    </tr>
+    <tr>
+      <th scope="col">Email</th>
+      <th scope="col">asdf@gmail</th>
+    </tr>
+    <tr>
+      <th scope="col">Number of games</th>
+      <th scope="col">1</th>
+    </tr>
+    <tr>
+      <th scope="col">Number of wins</th>
+      <th scope="col">1</th>
+    </tr>
+    <tr>
+      <th scope="col">Number of losers</th>
+      <th scope="col">1</th>
+    </tr>
+    <tr>
+      <th scope="col">Number of draws</th>
+      <th scope="col">1</th>
+    </tr>
+    
+</table>
+</div>
+ <p>    <a class="btn btn-warning" href="{% url 'home' %}" role="button"> Homepage </a>
+{% endblock %}
