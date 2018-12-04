@@ -16,13 +16,18 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from django.views.generic.base import TemplateView
-
+import django_cas_ng.views
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('admin/', admin.site.urls),
     path('game/',include('game.urls'), name = 'game'),
     path('profil/',include('profil.urls'), name = 'profil'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/login/', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
+    path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
+    path('accounts/callback/', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    # creer une app de login pour connecter cas utc
+    # path('login/',include('login.urls'),name = 'login'),
 ]
 
 

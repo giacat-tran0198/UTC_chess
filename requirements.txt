@@ -1,0 +1,6 @@
+Django==2.1.4
+django-cas-ng==3.6.0
+pypi==2.1
+python-cas==1.4.0
+
+

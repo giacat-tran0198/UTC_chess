@@ -9,10 +9,10 @@
   <p>
     <a class="btn btn-warning" href="{% url 'game:index' %}" role="button"> Game </a>
     <a class="btn btn-warning" href="{% url 'profil:index' %}" role="button"> Your space </a>
-    <a class="btn btn-warning" href="{% url 'logout' %}" role="button"> Logout </a>
+    <a class="btn btn-warning" href="{% url 'cas_ng_logout' %}" role="button"> Logout </a>
   </p>
 {% else %}
   <p>You are not logged in</p>
-  <a class="btn btn-warning" href="{% url 'login' %}" role="button"> Login </a>
+  <a class="btn btn-warning" href="{% url 'cas_ng_login' %}" role="button"> Login </a>
 {% endif %}
 {% endblock %}
