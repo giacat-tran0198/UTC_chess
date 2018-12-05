@@ -61,9 +61,9 @@ $(function () {
     //draw board with new move
     socket.on('move', function (msg) {
         if (msg.gameId === serverGame.Id) {
-            game.move(msg.move);
-            board.position(msg.board);
-            updateMoveHistory(msg.move);
+            game.move(msg.Move);
+            board.position(game.fen());
+            updateMoveHistory(msg.Move);
             updateStatus();
         }
     });
@@ -71,8 +71,6 @@ $(function () {
     //logout
     socket.on('logout', function (msg) {
         if (msg.gameId === serverGame.Id) {
-            game = null;
-            board.destroy();
             socket.disconnect();
             checkLogout = msg.username;
             updateStatus();
@@ -101,7 +99,7 @@ var initGame = function (serverGameState) {
     updateStatus();
 }
 
-var onDragStart = function (piece) {
+var onDragStart = function (source, piece, position, orientation) {
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
@@ -162,7 +160,7 @@ var onDrop = function (source, target) {
     if (move === null) {
         return 'snapback';
     } else {
-        socket.emit('move', { move, gameId: serverGame.Id, board: game.fen() });
+        socket.emit('move', { Move: move, gameId: serverGame.Id});
         updateMoveHistory(move);
     }
     updateStatus();
@@ -174,7 +172,7 @@ var onSnapEnd = function () {
     board.position(game.fen());
 };
 
-var onMouseoverSquare = function (square) {
+var onMouseoverSquare = function (square, piece) {
     if (game.turn() === serverGame.setColorUser[username][0]) {
         var moves = game.moves({
             square: square,
@@ -191,7 +189,7 @@ var onMouseoverSquare = function (square) {
     }
 };
 
-var onMouseoutSquare = function () {
+var onMouseoutSquare = function (square, piece) {
     removeGreySquares();
 };
 
