@@ -11,11 +11,14 @@
 
 <body>
   You: {{user.username}}!!<input id='username' value='{{user.username}}' type="hidden">
-  Opponent: <label id='opponentname'></label>
   <div id='page-lobby'>
+    Opponent: <label id='opponentname'></label>
     <div id='userList'></div>
   </div>
-  <div class='boardGame' id='board'></div>
+  <div class="page-game" id='page-game'>
+    <button id='game-quite'>Quite</button>
+    <div class='boardGame' id='board'></div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="http://localhost:4000/socket.io/socket.io.js"></script>
@@ -27,15 +30,17 @@
   <div id='page-notification'>
     Status: <span id="status"></span>
 
-  <table id="move-history">
-    <thead>
-      <tr>
-        <th>From</th>
-        <th>To</th>
-        <th>Piece</th>
-      </tr>
-    </thead>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Piece</th>
+        </tr>
+      </thead>
+      <tbody id="move-history">
+      </tbody>
+    </table>
   </div>
 </body>
 
