@@ -1,3 +1,27 @@
+/*header{ 
+    background-color: #fbefc1;  
+} 
+ 
+img{ 
+  max-height: 60%; 
+  width: auto; 
+}*/ 
+.borderless table { 
+    border-top-style: none; 
+    border-left-style: none; 
+    border-right-style: none; 
+    border-bottom-style: none; 
+} 
+ 
+/*.LogoCentre{ 
+  display:block;  
+  left: 30px; 
+}*/ 
+ 
+/*.button{ 
+  right: 30px 
+}*/
+
 .boardGame{
     width: 400px;
 	margin: auto

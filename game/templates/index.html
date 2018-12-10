@@ -4,21 +4,49 @@
 <html>
 
 <head>
-  <title>Game - Chess FABLAB</title>
+   <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width" /> 
+<!-- Logo fablab --> 
+ <link rel="icon" href="http://fablabutc.fr/resources/pics/cropped-logo-32x32.png " sizes="32x32"> 
+ <link rel="icon" href="http://fablabutc.fr/resources/pics/cropped-logo-192x192.png " sizes="192x192"> 
+<!-- css de boostrap --> 
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> 
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> 
+<!-- css chessboard --> 
   <link rel="stylesheet" href='{% static "css/chessboard-0.3.0.min.css" %}' type="text/css" />
   <link rel="stylesheet" href='{% static "css/main.css" %}' type="text/css" />
+  <title>Game - Chess FABLAB</title>
 </head>
 
 <body>
-  You: {{user.username}}!!<input id='username' value='{{user.username}}' type="hidden">
-  <div id='page-lobby'>
-    Opponent: <label id='opponentname'></label>
+   <header style="background-color: #fbefc1"> 
+    <table class='borderless table'> 
+       <tr> 
+        <th> 
+          <a class='LogoCentre' href="#"><img src="{% static "img/fablab-logo.png" %}" alt="logoFabLab" style=" max-height: 70%; 
+  width: auto; margin-left: 40px;"/></a>   
+        </th> 
+        <th style="text-align: right;"> 
+          <a class='btn btn-warning' href="{% url 'home' %}" role="button" style="margin-right:40px;"> Homepage</a> 
+        </th> 
+       </tr> 
+    </table>    
+  </header> 
+
+  <div style="margin-left: 30px; font-family: roboto;"> 
+    <p>You:<b> {{user.username}}<input id='username' value='{{user.username}}' type="hidden"></b></p> 
+    Your opponent: <b><label id='opponentname'></label></b>
+  </div>
+  <div id='page-lobby' style="margin-left:auto;margin-right: auto;">
     <div id='userList'></div>
   </div>
-  <div class="page-game" id='page-game'>
-    <button id='game-quite'>Quite</button>
+
+  <div class="page-game" id='page-game' style="float: left;margin-left: auto;margin-right:auto;width: 74%;text-align : center">
     <div class='boardGame' id='board'></div>
-  </div>
+    <p><button class="btn btn-warning" id='game-quite'>Quite</button></p>
+  </div>  
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="http://localhost:4000/socket.io/socket.io.js"></script>
@@ -27,21 +55,22 @@
   <script src='{% static "js/chessboard-0.3.0.min.js" %}'></script>
   <script src='{% static "js/main.js" %}'></script>
 
-  <div id='page-notification'>
+  <div id='page-notification' style="float: right; width: 26%;font-family: roboto;overflow: auto;height: 300px" > 
     Status: <span id="status"></span>
-
-    <table>
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Piece</th>
-        </tr>
-      </thead>
-      <tbody id="move-history">
-      </tbody>
-    </table>
-  </div>
+    <table id="move-history"> 
+      <thead> 
+        <tr> 
+          <th>From</th> 
+          <th>To</th> 
+          <th>Piece</th> 
+        </tr> 
+      </thead> 
+    </table> 
+  </div> 
+  <!-- <div style="bottom: 0;background-color: #fbefc1;height: 60px; text-align: center;"> 
+    <footer> Project PR00 - The robotic chessboard of FABLAB - A18 
+    </footer>   
+  </div> --> 
 </body>
 
 </html>

@@ -6,6 +6,18 @@ from decimal import Decimal
 from django.utils import timezone
 from django.db.models import Q
 
+# ajoute admin 
+user = User.objects.get(username="nguyetra") 
+user.is_staff = True 
+user.is_admin = True 
+user.is_superuser = True 
+user.save() 
+
+user = User.objects.get(username="tranquoc") 
+user.is_staff = True 
+user.is_admin = True 
+user.is_superuser = True 
+user.save() 
 
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE)
