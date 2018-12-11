@@ -45,7 +45,7 @@
 
   <div class="page-game" id='page-game' style="float: left;margin-left: auto;margin-right:auto;width: 74%;text-align : center">
     <div class='boardGame' id='board'></div>
-    <p><button class="btn btn-warning" id='game-quite'>Quite</button></p>
+    <p><button class="btn btn-warning" id='game-quit'>Quit</button></p>
   </div>  
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -57,7 +57,7 @@
 
   <div id='page-notification' style="float: right; width: 26%;font-family: roboto;overflow: auto;height: 300px" > 
     Status: <span id="status"></span>
-    <table id="move-history"> 
+    <table> 
       <thead> 
         <tr> 
           <th>From</th> 
@@ -65,6 +65,8 @@
           <th>Piece</th> 
         </tr> 
       </thead> 
+      <tbody id="move-history">
+      </tbody>
     </table> 
   </div> 
   <!-- <div style="bottom: 0;background-color: #fbefc1;height: 60px; text-align: center;"> 

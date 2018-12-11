@@ -14,9 +14,41 @@ $(function () {
     socket.emit('login', username);
     console.log('user ', username);
     $('#page-lobby').show();
+    $('#page-game').hide();
     $('#page-notification').hide();
 
+    $('#game-quit').on('click', function () {
+        window.location.reload();
+        if (checkLogout === '') {
+            socket.emit('quit', { username: username, gameId: serverGame.Id });
+        }
+        else {
+            checkLogout = '';
+        }
+        socket.emit('login', username);
+        $('#opponentname').html('');
+        historyElement.html('');
+        $('#page-lobby').show();
+        $('#page-game').hide();
+        $('#page-notification').hide();
+    });
+    
+    var addUsers = function (msg) {
+        usersOnline.push(msg);
+        updateUserList();
+    };
+
+    var removeUser = function(msg) {
+        usersOnline = [...new Set(usersOnline)];
+        for (var i=0; i<usersOnline.length; i++) {
+          if (usersOnline[i] === msg) {
+              usersOnline.splice(i, 1);
+          }
+       }
+    };
+
     var updateUserList = function () {
+        removeUser(username);
         document.getElementById('userList').innerHTML = '';
         usersOnline.forEach(function (user) {
             $('#userList').append($('<button>')
@@ -35,17 +67,12 @@ $(function () {
     });
 
     socket.on('joinlobby', function (msg) {
-        usersOnline.push(msg);
-        updateUserList();
+        addUsers(msg);
     });
 
     //when choice an oppenent
     socket.on('leavelobby', function (msg) {
-        for (var i = 0; i < usersOnline.length; i++) {
-            if (usersOnline[i] === msg) {
-                usersOnline.splice(i, 1);
-            }
-        }
+        removeUser(msg);
         updateUserList();
     });
 
@@ -55,7 +82,10 @@ $(function () {
         updateStatus();
         $('#opponentname').html(msg.oppDict[username]);
         $('#page-lobby').hide();
+        $('#page-game').show();
         $('#page-notification').show();
+
+
     });
 
     //draw board with new move
@@ -70,8 +100,22 @@ $(function () {
 
     //logout
     socket.on('logout', function (msg) {
+        if (msg.username !== username){
+            if (serverGame != null){
+                if (msg.gameId === serverGame.Id) {
+                    socket.disconnect();
+                    checkLogout = msg.username;
+                    updateStatus();
+        
+                    removeUser(msg.username);
+                    updateUserList();
+                }
+            }
+        }
+    });
+
+    socket.on('quit', function (msg) {
         if (msg.gameId === serverGame.Id) {
-            socket.disconnect();
             checkLogout = msg.username;
             updateStatus();
         }
@@ -103,7 +147,8 @@ var onDragStart = function (source, piece, position, orientation) {
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
-        (game.turn() !== serverGame.setColorUser[username][0])) {
+        (game.turn() !== serverGame.setColorUser[username][0]) ||
+        (checkLogout !== '')) {
         return false;
     }
 };
@@ -160,7 +205,7 @@ var onDrop = function (source, target) {
     if (move === null) {
         return 'snapback';
     } else {
-        socket.emit('move', { Move: move, gameId: serverGame.Id});
+        socket.emit('move', { Move: move, gameId: serverGame.Id });
         updateMoveHistory(move);
     }
     updateStatus();
@@ -173,7 +218,8 @@ var onSnapEnd = function () {
 };
 
 var onMouseoverSquare = function (square, piece) {
-    if (game.turn() === serverGame.setColorUser[username][0]) {
+    if ((game.turn() === serverGame.setColorUser[username][0]) &&
+        (checkLogout === '')) {
         var moves = game.moves({
             square: square,
             verbose: true

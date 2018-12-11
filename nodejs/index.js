@@ -70,4 +70,9 @@ io.on('connection', function (socket) {
             gameId: socket.gameId
         });
     });
+
+    socket.on('quit', function (msg) {
+        console.log("quit: " + msg.username);
+        socket.broadcast.emit('quit', msg);
+    });
 });
