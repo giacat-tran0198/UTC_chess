@@ -18,7 +18,6 @@ $(function () {
     $('#page-notification').hide();
 
     $('#game-quit').on('click', function () {
-        window.location.reload();
         if (checkLogout === '') {
             socket.emit('quit', { username: username, gameId: serverGame.Id });
         }
@@ -31,6 +30,7 @@ $(function () {
         $('#page-lobby').show();
         $('#page-game').hide();
         $('#page-notification').hide();
+        updateUserList();
     });
     
     var addUsers = function (msg) {
