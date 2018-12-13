@@ -31,6 +31,7 @@ $(function () {
         $('#page-game').hide();
         $('#page-notification').hide();
         updateUserList();
+        window.location.reload();
     });
     
     var addUsers = function (msg) {
