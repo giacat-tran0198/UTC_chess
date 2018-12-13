@@ -1,8 +1,10 @@
 var http = require('http').createServer().listen(4000);
 var io = require('socket.io')(http);
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
+var xhttp = new XMLHttpRequest();
 // host of the server
-var host = 'localhost';
+var host = '127.0.0.1';
 var port = '8000';
 
 //set users
@@ -42,7 +44,7 @@ io.on('connection', function (socket) {
         setColorUser['white'] = socket.username;
         setColorUser['black'] = msg;
 
-        var game = {
+        game = {
             Id: Math.floor((Math.random() * 100) + 1),
             oppDict: oppDict,
             setColorUser: setColorUser
@@ -74,5 +76,30 @@ io.on('connection', function (socket) {
     socket.on('quit', function (msg) {
         console.log("quit: " + msg.username);
         socket.broadcast.emit('quit', msg);
+    });
+
+    socket.on('endgame', function(msg){
+        var url = 'http://' + host +':' + port + '/game/save_game/';
+
+        msg['white_player'] = game.setColorUser['white'];
+        msg['black_player'] = game.setColorUser['black'];
+
+        // when the request finishes
+        xhttp.onreadystatechange = function() {
+            // it checks if the request was succeeded
+            if(this.readyState === 4 && this.status === 200) {
+                // if the value returned from the view is error
+                if(xhttp.responseText === "error")
+                    console.log("error saving game");
+                // if the value returned from the view is success
+                else if(xhttp.responseText === "success")
+                    console.log("the message was posted successfully");
+            }
+        };
+
+        // prepares to send
+        xhttp.open('POST', url, true);
+        // sends the data to the view
+        xhttp.send(JSON.stringify(msg));
     });
 });

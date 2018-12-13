@@ -105,6 +105,7 @@ $(function () {
                     socket.disconnect();
                     checkLogout = msg.username;
                     updateStatus();
+                    
                 }
             }
             removeUser(msg.username);
@@ -165,10 +166,15 @@ var updateStatus = function () {
 
         if (game.in_checkmate() === true) {
             status = 'Game over, ' + moveUser + ' is in checkmate.';
+            var winner = moveUser !== username ? username : moveUser;
+            var history = game.history();
+            endGame(winner, history,'');
         }
 
         else if (game.in_draw() === true) {
             status = 'Game over, drawn position';
+            var history = game.history();
+            endGame('draw', history,'drawn position');
         }
 
         else {
@@ -182,6 +188,9 @@ var updateStatus = function () {
     }
     else {
         var status = 'Game over, you win,  ' + checkLogout + ' is quitted.';
+        var winner = checkLogout !== username ? username : checkLogout;
+        var history = game.history();
+        endGame(winner, history, checkLogout + ' quit');
     }
     statusEl.html(status);
 };
@@ -253,3 +262,8 @@ var greySquare = function (square) {
 
     squareEl.css('background', background);
 };
+
+var endGame = function (winer, history, note) {
+    var historyGame = history.splice(0).toString();
+    socket.emit('endgame', { 'winner': winer, 'history': historyGame, note: note });
+}

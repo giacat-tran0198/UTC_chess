@@ -1,7 +1,8 @@
-from django.urls import path
+from django.conf.urls import url
 
 from . import views
-app_name = 'game'
+
 urlpatterns = [
-    path('', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
+    url(r'^save_game/$', views.save_game, name='save'),
 ]
