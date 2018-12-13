@@ -33,19 +33,19 @@ $(function () {
         updateUserList();
         window.location.reload();
     });
-    
+
     var addUsers = function (msg) {
         usersOnline.push(msg);
         updateUserList();
     };
 
-    var removeUser = function(msg) {
+    var removeUser = function (msg) {
         usersOnline = [...new Set(usersOnline)];
-        for (var i=0; i<usersOnline.length; i++) {
-          if (usersOnline[i] === msg) {
-              usersOnline.splice(i, 1);
-          }
-       }
+        for (var i = 0; i < usersOnline.length; i++) {
+            if (usersOnline[i] === msg) {
+                usersOnline.splice(i, 1);
+            }
+        }
     };
 
     var updateUserList = function () {
@@ -85,8 +85,6 @@ $(function () {
         $('#page-lobby').hide();
         $('#page-game').show();
         $('#page-notification').show();
-
-
     });
 
     //draw board with new move
@@ -101,17 +99,16 @@ $(function () {
 
     //logout
     socket.on('logout', function (msg) {
-        if (msg.username !== username){
-            if (serverGame != null){
+        if (msg.username !== username) {
+            if (serverGame != null) {
                 if (msg.gameId === serverGame.Id) {
                     socket.disconnect();
                     checkLogout = msg.username;
                     updateStatus();
-        
-                    removeUser(msg.username);
-                    updateUserList();
                 }
             }
+            removeUser(msg.username);
+            updateUserList();
         }
     });
 
@@ -119,6 +116,8 @@ $(function () {
         if (msg.gameId === serverGame.Id) {
             checkLogout = msg.username;
             updateStatus();
+            removeUser(msg.username);
+            updateUserList();
         }
     });
 });
