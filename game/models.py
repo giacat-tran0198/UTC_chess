@@ -16,5 +16,5 @@ class Game(models.Model):
     note = models.CharField(max_length=150, blank = True)
     time = models.DateTimeField(default=timezone.now, blank=False)
     present = models.NullBooleanField(default=False) 
-    def __repr__(self):
-    	return self.id_game
+    # def __repr__(self):
+    # 	return self.id_game

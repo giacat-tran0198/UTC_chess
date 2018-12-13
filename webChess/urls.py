@@ -25,9 +25,6 @@ urlpatterns = [
     path('accounts/login/', django_cas_ng.views.LoginView.as_view(), name='cas_ng_login'),
     path('accounts/logout/', django_cas_ng.views.LogoutView.as_view(), name='cas_ng_logout'),
     path('accounts/callback/', django_cas_ng.views.CallbackView.as_view(), name='cas_ng_proxy_callback'),
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # creer une app de login pour connecter cas utc
-    # path('login/',include('login.urls'),name = 'login'),
 ]
 
 
