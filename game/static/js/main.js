@@ -5,6 +5,7 @@ var nodejs_port = '4000';
 var game, board, socket, serverGame;
 var usersOnline = [];
 var checkLogout = '';
+var checkDraw = '';
 
 $(function () {
     socket = io(host + ':' + nodejs_port);
@@ -102,10 +103,10 @@ $(function () {
         if (msg.username !== username) {
             if (serverGame != null) {
                 if (msg.gameId === serverGame.Id) {
-                    socket.disconnect();
                     checkLogout = msg.username;
                     updateStatus();
-                    
+                    socket.disconnect();
+
                 }
             }
             removeUser(msg.username);
@@ -149,7 +150,7 @@ var onDragStart = function (source, piece, position, orientation) {
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
         (game.turn() !== serverGame.setColorUser[username][0]) ||
-        (checkLogout !== '')) {
+        (checkLogout !== '') || (checkDraw !== '')) {
         return false;
     }
 };
@@ -167,20 +168,17 @@ var updateStatus = function () {
         if (game.in_checkmate() === true) {
             status = 'Game over, ' + moveUser + ' is in checkmate.';
             var winner = moveUser !== username ? username : moveUser;
-            var history = game.history();
-            endGame(winner, history,'');
+            endGame(winner, '');
         }
 
         else if (game.in_draw() === true) {
             status = 'Game over, drawn position';
-            var history = game.history();
-            endGame('draw', history,'drawn position');
+            checkDraw = moveUser;
+            endGame('draw', 'drawn position');
         }
 
         else {
             status = moveUser + ' to move';
-
-
             if (game.in_check() === true) {
                 status += ', ' + moveUser + ' is in check';
             }
@@ -189,8 +187,7 @@ var updateStatus = function () {
     else {
         var status = 'Game over, you win,  ' + checkLogout + ' is quitted.';
         var winner = checkLogout !== username ? username : checkLogout;
-        var history = game.history();
-        endGame(winner, history, checkLogout + ' quit');
+        endGame(winner, checkLogout + ' quit');
     }
     statusEl.html(status);
 };
@@ -228,7 +225,7 @@ var onSnapEnd = function () {
 
 var onMouseoverSquare = function (square, piece) {
     if ((game.turn() === serverGame.setColorUser[username][0]) &&
-        (checkLogout === '')) {
+        (checkLogout === '') && (checkDraw === '')) {
         var moves = game.moves({
             square: square,
             verbose: true
@@ -263,7 +260,17 @@ var greySquare = function (square) {
     squareEl.css('background', background);
 };
 
-var endGame = function (winer, history, note) {
-    var historyGame = history.splice(0).toString();
-    socket.emit('endgame', { 'winner': winer, 'history': historyGame, note: note });
+var endGame = function (winer, note) {
+    var historyGame = game.history({ verbose: true });
+    var text = "";
+    for (var i = 0; i < historyGame.length; i++) {
+        text += moveToString(historyGame[i]) + ", ";
+    }
+    if (winer === username || checkDraw === username){
+        socket.emit('endgame', { 'winner': winer, 'history': text, note: note });
+        checkDraw = '';
+    }
+}
+var moveToString = function (move) {
+    return move.from + '-' + move.to + (move.captured ? '-captured:' + move.san : '');
 }
