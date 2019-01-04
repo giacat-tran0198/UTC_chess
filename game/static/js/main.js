@@ -32,7 +32,7 @@ $(function () {
         $('#page-game').hide();
         $('#page-notification').hide();
         updateUserList();
-        window.location.reload();
+        //window.location.reload();
     });
 
     var addUsers = function (msg) {
@@ -260,23 +260,19 @@ var greySquare = function (square) {
     squareEl.css('background', background);
 };
 
-var endGame = function (winer, note) {
+var endGame = function (winner, note) {
     var historyGame = game.history({ verbose: true });
     var text = "";
     for (var i = 0; i < historyGame.length; i++) {
         text += moveToString(historyGame[i]) + ", ";
     }
-    if (winer === username || checkDraw === username){
-        socket.emit('endgame', { 'winner': winer, 'history': text, note: note });
+    if (winner === username || winner === 'draw' && checkDraw === username) {
+        console.log(winner + ' send');
+        socket.emit('endgame', { 'winner': winner, 'history': text, note: note, username: username });
         checkDraw = '';
     }
 }
 
 var moveToString = function (move) {
-    if (move.captured){
-        return move.to + '-' + 'x' + ', ' + move.from + '-' + move.to;
-    }
-    else 
-        return move.from + '-' + move.to;
+    return (move.captured ? move.to + '-x,' : '') + move.from + '-' + move.to;
 }
-

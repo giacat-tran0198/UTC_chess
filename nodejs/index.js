@@ -79,6 +79,9 @@ io.on('connection', function (socket) {
     });
 
     socket.on('endgame', function(msg){
+
+        console.log(msg.username + ' send');
+
         var url = 'http://' + host +':' + port + '/game/save_game/';
 
         msg['white_player'] = game.setColorUser['white'];
