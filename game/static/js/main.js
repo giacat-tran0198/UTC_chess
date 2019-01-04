@@ -271,6 +271,12 @@ var endGame = function (winer, note) {
         checkDraw = '';
     }
 }
+
 var moveToString = function (move) {
-    return move.from + '-' + move.to + (move.captured ? '-captured:' + move.san : '');
+    if (move.captured){
+        return move.to + '-' + 'x' + ', ' + move.from + '-' + move.to;
+    }
+    else 
+        return move.from + '-' + move.to;
 }
+
