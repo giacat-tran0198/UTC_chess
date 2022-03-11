@@ -36,7 +36,7 @@ olefile==0.45.1
 onboard==1.4.1
 padme==1.1.1
 pexpect==4.2.1
-Pillow==5.1.0
+Pillow==9.0.1
 plainbox==0.25
 pluggy==0.6.0
 protobuf==3.0.0
